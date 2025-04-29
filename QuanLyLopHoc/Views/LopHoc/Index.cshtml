@@ -1,0 +1,74 @@
+﻿@using DLL.Model
+@model List<LopHoc>
+
+@{
+	ViewData["Title"] = "Lớp học"; 
+	Layout = "_AdminLayout"; 
+}
+
+<h2 class="text-center mb-3">Danh sách lớp học</h2>
+
+<div class="row mb-3">
+    <div class="col text-end">
+        <a asp-controller="LopHoc" asp-action="Create" class="btn btn-primary">Thêm lớp học</a>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>STT</th>
+            <th>Tên lớp</th>
+            <th>Khối Lớp</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int stt = 1;
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@stt</td>
+                <td class="text-start">@item.TenLop</td>
+                <td>@item.KhoiLop</td>
+                <td>@(item.TrangThai == 1 ? "Đang hoạt động" : "Ngừng hoạt động")</td>
+                <td>
+                    <a asp-controller="LopHoc" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a>
+                    <a asp-controller="LopHoc" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+            stt++;
+        }
+    </tbody>
+</table>
+
+<style>
+    body {
+        padding: 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        vertical-align: middle;
+        padding: 6px 8px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .btn-sm {
+        padding: 4px 10px;
+        font-size: 13px;
+    }
+</style>

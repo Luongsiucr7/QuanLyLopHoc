@@ -1,0 +1,40 @@
+﻿@model DLL.Model.NguoiDung
+@{
+	ViewData["Title"] = "Login";
+	
+}
+<body class="bg-primary">
+<div id="layoutAuthentication">
+    <div id="layoutAuthentication_content">
+        <main>
+				<div class="container">
+					<div class="row justify-content-center">
+						<div class="col-lg-5">
+							<div class="card shadow-lg border-0 rounded-lg mt-5">
+								<div class="card-header"><h3 class="text-center font-weight-light my-4">Đăng Nhập</h3></div>
+								<div class="card-body">
+									<form method="post" asp-controller="Account" asp-action="Login">
+										<div class="form-floating mb-3">
+											<input class="form-control" asp-for="Email" type="text" placeholder="Nhập tên đăng nhập(email)" />
+											<label asp-for="Email">Tên đăng nhập</label>
+										</div>
+										<div class="form-floating mb-3">
+											<input class="form-control" asp-for="MatKhau" type="password" placeholder="Nhập mật khẩu" />
+											<label asp-for="MatKhau">Mật khẩu</label>
+										</div>
+										<div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+											<button type="submit" class="btn btn-primary">Đăng Nhập</button>
+										</div>
+									</form>
+								</div>
+									<div class="card-footer text-center py-3">
+										<div class="small"><a asp-controller="Account" asp-action="DangKy">Chưa có tài khoản? Đăng ký ngay!</a></div>
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+        </main>
+    </div>
+</div>
+</body>

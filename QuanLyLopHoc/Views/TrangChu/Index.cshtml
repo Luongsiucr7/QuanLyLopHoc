@@ -1,0 +1,50 @@
+﻿@using DLL.Model
+@model List<LopHoc>
+@{
+	Layout = "_AdminLayout"; // Use the admin layout for this view
+}
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="col">
+            <h1 class="text-center">QUẢN LÝ LỚP HỌC</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="class-grid">
+                @foreach (var lop in Model)
+                {
+                    <a asp-controller="" asp-action="" class="class-block">
+                        @lop.TenLop
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+
+
+    <style>
+        .class-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .class-block {
+            background-color: #fff;
+            border: 2px solid #000;
+            padding: 20px;
+            text-align: center;
+            font-size: 18px;
+            text-decoration: none;
+            color: #000;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+            .class-block:hover {
+                background-color: #e0e0e0;
+            }
+    </style>
