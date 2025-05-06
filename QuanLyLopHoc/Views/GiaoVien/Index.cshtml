@@ -1,0 +1,201 @@
+﻿@model DLL.DTO.GiaoVienDto;
+@using DLL.Model;
+@{
+    ViewData["Title"] = "Giáo viên";
+    Layout = "_AdminLayout";
+    var danhSach = ViewBag.DanhSachGiaoVien as List<NguoiDung>;
+    var monTheoNguoiDung = ViewBag.MonTheoNguoiDungId as Dictionary<int, string>;
+    int stt = 1;
+}
+
+
+<h2 class="text-center">Quản Lý Giáo Viên</h2>
+<div class="text-end mb-3">
+    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalHocSinh">+ Thêm giáo viên</button>
+</div>
+<!-- Modal thêm học sinh -->
+<div class="modal fade" id="modalHocSinh" tabindex="-1" aria-labelledby="modalHocSinhLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalHocSinhLabel">Thêm giáo viên mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tên giáo viên</label>
+                        <input asp-for="TenNguoiDung" class="form-control" />
+                        <span asp-validation-for="TenNguoiDung" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input asp-for="Email" class="form-control" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Số Điện Thoại</label>
+                        <input asp-for="SoDienThoai" class="form-control" />
+                        <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Địa chỉ</label>
+                        <input asp-for="DiaChi" class="form-control" />
+                        <span asp-validation-for="DiaChi" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Giới tính</label><br />
+                        <div class="form-check form-check-inline">
+                            <input asp-for="GioiTinh" class="form-check-input" type="radio" value="true" checked />
+                            <label class="form-check-label">Nam</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input asp-for="GioiTinh" class="form-check-input" type="radio" value="false" />
+                            <label class="form-check-label">Nữ</label>
+                        </div>
+                        <span asp-validation-for="GioiTinh" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Ngày sinh</label>
+                        <input asp-for="NgaySinh" class="form-control" type="date" />
+                        <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mật khẩu</label>
+                        <input asp-for="MatKhau" class="form-control" type="password" />
+                        <span asp-validation-for="MatKhau" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ảnh đại diện</label>
+                        <input asp-for="TenLinkAnh" class="form-control" type="file" />
+                        <span asp-validation-for="TenLinkAnh" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+        <tr>
+            <th>STT</th>
+            <th>Tên giáo viên</th>
+            <th>Email</th>
+            <th>Địa chỉ</th>
+            <th>Giới tính</th>
+            <th>Ngày sinh</th>
+            <th>Ảnh</th>
+            <th>Dạy môn</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in danhSach)
+        {
+            <tr>
+                <td>@stt</td>
+                <td class="text-start">@item.TenNguoiDung</td>
+                <td>@item.Email</td>
+                <td>@item.DiaChi</td>
+                <td>@(item.GioiTinh ? "Nam" : "Nữ")</td>
+                <td>@item.NgaySinh.ToString("dd/MM/yyyy")</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.TenLinkAnh))
+                    {
+                        <img src="/giaovien/@item.TenLinkAnh" alt="Ảnh giáo viên" width="50" height="50" class="rounded-circle" />
+                    }
+                    else
+                    {
+                        <span>Chưa cập nhật ảnh</span>
+                    }
+                </td>
+                <td>
+                    @(monTheoNguoiDung != null && monTheoNguoiDung.ContainsKey(item.Id)
+                        ? monTheoNguoiDung[item.Id]
+                        : "Chưa phân công")
+                </td>
+                <td>@(item.TrangThai == 1 ? "Đang hoạt động" : "Ngừng hoạt động")</td>
+                <td>
+                    <a asp-controller="GiaoVien" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a>
+                    <a asp-controller="GiaoVien" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+            stt++;
+        }
+    </tbody>
+</table>
+<nav aria-label="Page navigation" class="mt-3 d-flex justify-content-center">
+    <ul class="pagination">
+        @if (ViewBag.TotalPages > 1)
+        {
+            for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                if (i == ViewBag.CurrentPage)
+                {
+                    <li class="page-item active">
+                        <span class="page-link">@i</span>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+                    </li>
+                }
+            }
+        }
+    </ul>
+</nav>
+
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS (để modal hoạt động) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+    body {
+        padding: 10px;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        vertical-align: middle;
+        padding: 6px 8px;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    .btn-sm {
+        padding: 4px 10px;
+        font-size: 13px;
+    }
+
+    .pagination .page-item .page-link {
+        color: #007bff;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: #fff;
+    }
+</style>

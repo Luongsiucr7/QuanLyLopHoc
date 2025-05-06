@@ -5,6 +5,7 @@ namespace DLL.Model;
 
 public partial class NguoiDung
 {
+
     public int Id { get; set; }
 
     public string MaNguoiDung { get; set; } = null!;

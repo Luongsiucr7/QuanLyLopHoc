@@ -1,0 +1,73 @@
+﻿@model List<DLL.DTO.BangDiemHocSinhDto>;
+@{
+	Layout = "_AdminLayout";	
+}
+<h2>Bảng điểm lớp học</h2>
+<h2 class="text-center">Bảng điểm lớp học</h2>
+
+<table class="table table-bordered table-hover text-center">
+	<thead class="table-dark">
+		<tr>
+			<th>STT</th>
+			<th>Tên học sinh</th>
+			<th>Tên lớp học</th>
+			<th>Giáo viên chủ nhiệm</th>
+			<th>Toán</th>
+			<th>Văn</th>
+			<th>Lịch sử</th>
+			<th>Ngoại ngữ</th>
+			<th>Khoa học</th>
+			<th>Thể dục</th>
+			<th>Tin học</th>
+		</tr>
+	</thead>
+	<tbody>
+		@{
+			int stt = 1;
+		}
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@stt</td>
+				<td class="text-start">@item.TenHocSinh</td>
+				<td>@item.LopHoc</td>
+				<td>@item.GiaoVienChuNhiem</td>
+				<td>@item.DiemToan</td>
+				<td>@item.DiemVan</td>
+				<td>@item.DiemLichSu</td>
+				<td>@item.DiemNgoaiNgu</td>
+				<td>@item.DiemKhoaHoc</td>
+				<td>@item.DiemTheDuc</td>
+				<td>@item.DiemTinHoc</td>
+			</tr>
+			stt++;
+		}
+	</tbody>
+</table>
+<div class="col-sm-4 d-grid">
+	<a class="btn btn-outline-secondary" asp-controller="TrangChu" asp-action="Index">Quay lại</a>
+</div>
+<style>
+	body {
+		padding: 10px;
+	}
+
+	table {
+		font-size: 14px;
+	}
+
+	th, td {
+		vertical-align: middle;
+		padding: 6px 8px;
+	}
+
+	.table-hover tbody tr:hover {
+		background-color: #f8f9fa;
+	}
+
+	.btn-sm {
+		padding: 4px 10px;
+		font-size: 13px;
+	}
+</style>
+

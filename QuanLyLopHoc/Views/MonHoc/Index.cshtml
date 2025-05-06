@@ -1,31 +1,31 @@
-﻿@model DLL.DTO.DiemDto
+﻿@model DLL.DTO.MonHocDto
 @using DLL.Model
 @{
-	ViewData["Title"] = "Điểm";
+	ViewData["Title"] = "Môn học";
 	Layout = "_AdminLayout";
-	var danhSach = ViewBag.DanhSachDiem as List<Diem>;
+	var danhSach = ViewBag.DanhSachMonHoc as List<MonHoc>;
 }
 
-<h2 class="text-center">Quản Lý Điểm</h2>
+<h2 class="text-center">Quản Lý Môn Học</h2>
 
 <div class="text-end mb-3">
-	<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalDiem">+ Thêm đầu điểm</button>
+	<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalMonHoc">+ Thêm môn học</button>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="modalDiem" tabindex="-1" aria-labelledby="modalDiemLabel" aria-hidden="true">
+<div class="modal fade" id="modalMonHoc" tabindex="-1" aria-labelledby="modalMonHocLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<form method="post">
 				<div class="modal-header">
-					<h5 class="modal-title" id="modalDiemLabel">Tạo đầu điểm mới</h5>
+					<h5 class="modal-title" id="modalMonHocLabel">Tạo môn học mới</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Đóng"></button>
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						<label class="form-label">Tên điểm</label>
-						<input asp-for="TenDiem" class="form-control" />
-						<span asp-validation-for="TenDiem" class="text-danger"></span>
+						<label class="form-label">Tên môn học</label>
+						<input asp-for="TenMon" class="form-control" />
+						<span asp-validation-for="TenMon" class="text-danger"></span>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -43,7 +43,7 @@
 	<thead class="table-dark">
 		<tr>
 			<th>STT</th>
-			<th>Tên điểm</th>
+			<th>Tên môn học</th>
 			<th>Trạng thái</th>
 			<th>Hành động</th>
 		</tr>
@@ -56,7 +56,7 @@
 		{
 			<tr>
 				<td>@stt</td>
-				<td class="text-start">@item.TenDiem</td>
+				<td class="text-start">@item.TenMon</td>
 				<td>@(item.TrangThai == 1 ? "Đang hoạt động" : "Ngừng hoạt động")</td>
 				<td>
 					<a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a>

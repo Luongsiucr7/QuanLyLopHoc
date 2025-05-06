@@ -1,0 +1,100 @@
+﻿@model DLL.DTO.GiaoVienDto
+@{
+    var id = ViewData["Id"];
+    var tenLinkAnh = ViewData["TenLinkAnh"] as string;    
+}
+<div class="row">
+    <div class="col-mb-8 mx-auto rounded border p-3">
+        <h2 class="text-center mb-5">Sửa giáo viên</h2>
+        <form method="post" enctype="multipart/form-data" asp-action="Edit" asp-route-id="@id">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Tên giáo viên</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="TenNguoiDung" />
+                    <span asp-validation-for="TenNguoiDung" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Email</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Địa chỉ</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="DiaChi" />
+                    <span asp-validation-for="DiaChi" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Số điện thoại</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="SoDienThoai" />
+                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Giới tính</label>
+                <div class="col-sm-8 d-flex">
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="radio" asp-for="GioiTinh" value="true" />
+                        <label class="form-check-label">Nam</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="GioiTinh" value="false" />
+                        <label class="form-check-label">Nữ</label>
+                    </div>
+                </div>
+                <span asp-validation-for="GioiTinh" class="text-danger"></span>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Ngày sinh</label>
+                <div class="col-sm-8">
+                    <input type="date" class="form-control" asp-for="NgaySinh" />
+                    <span asp-validation-for="NgaySinh" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Mật khẩu</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" asp-for="MatKhau" />
+                    <span asp-validation-for="MatKhau" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Trạng thái</label>
+                <div class="col-sm-8 d-flex">
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="radio" asp-for="TrangThai" value="1" />
+                        <label class="form-check-label">Đang hoạt động</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" asp-for="TrangThai" value="0" />
+                        <label class="form-check-label">Ngừng hoạt động</label>
+                    </div>
+                </div>
+                <span asp-validation-for="TrangThai" class="text-danger"></span>
+            </div>
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Ảnh đại diện</label>
+                <div class="col-sm-8">
+                    <input type="file" class="form-control" asp-for="TenLinkAnh" />
+                    @if (!string.IsNullOrEmpty(tenLinkAnh))
+                    {
+                        <img src="~/giaovien/@tenLinkAnh" alt="Ảnh giáo viên" width="100" height="100" class="mt-2" />
+                    }
+                </div>
+            </div>           
+            <div class="row">
+                <div class="offset-sm-4 col-sm-4 d-grid">
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </div>
+                <div class="col-sm-4 d-grid">
+                    <a class="btn btn-outline-secondary" asp-action="Index">Hủy</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

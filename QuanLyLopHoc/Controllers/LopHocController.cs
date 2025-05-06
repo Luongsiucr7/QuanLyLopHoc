@@ -14,26 +14,29 @@ namespace QuanLyLopHoc.Controllers
         }
         public IActionResult Index()
         {
-            var lopHoc = context.LopHocs.ToList();
-            return View(lopHoc);
+            ViewBag.DanhSachLopHoc = context.LopHocs.ToList();
+            return View(new LopHocDTO());
         }
-        public IActionResult Create()
-        {
-            return View();
-        }
+     
         [HttpPost]
-        public IActionResult Create(LopHocDTO lopHocDto)
+        public IActionResult Index(LopHocDTO lopHocDto)
         {
-            LopHoc lop = new LopHoc();
+            if (!ModelState.IsValid)
             {
-                lop.TenLop = lopHocDto.TenLop;
-                lop.KhoiLop = lopHocDto.KhoiLop;
-                lop.TrangThai = 1;
+                ViewBag.DanhSachLopHoc = context.LopHocs.ToList();
+                return View(lopHocDto);
             }
+
+            var lop = new LopHoc
+            {
+                TenLop = lopHocDto.TenLop,
+                KhoiLop = lopHocDto.KhoiLop,
+                TrangThai = 1
+            };
             context.LopHocs.Add(lop);
             context.SaveChanges();
 
-            return RedirectToAction("Index", "LopHoc");
+            return RedirectToAction("Index");
         }
 
         public IActionResult Edit(int id)

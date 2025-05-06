@@ -1,27 +1,20 @@
-﻿@model DLL.DTO.LopHocDTO
+﻿@model DLL.DTO.DiemDto
 @{
 }
 <div class="row">
 	<div class="col-mb-8 mx-auto rounded border p-3">
 		<h2 class="text-center mb-5">
-			Sửa lớp học
+			Sửa điểm
 		</h2>
 		<form method="post" enctype="multipart/form-data">
 			<div class="col-sm-8">
-				<input class="form-control-plaintext" readonly value="@ViewData["LopId"]" />
+				<input class="form-control-plaintext" readonly value="@ViewData["DiemId"]" />
 			</div>
 			<div class="row mb-3">
-				<label class="col-sm-4 col-form-label">Tên lớp</label>
+				<label class="col-sm-4 col-form-label">Tên Điểm</label>
 				<div class="col-sm-8">
-					<input class="form-control" asp-for="TenLop" />
-					<span asp-validation-for="TenLop" class="text-danger"></span>
-				</div>
-			</div>
-			<div class="row mb-3">
-				<label class="col-sm-4 col-form-label">Khối lớp</label>
-				<div class="col-sm-8">
-					<input class="form-control" type="number" asp-for="KhoiLop" min="1" max="5"/>
-					<span asp-validation-for="KhoiLop" class="text-danger"></span>
+					<input class="form-control" asp-for="TenDiem" />
+					<span asp-validation-for="TenDiem" class="text-danger"></span>
 				</div>
 			</div>
 			<div class="row mb-3">
@@ -43,9 +36,9 @@
 					<button type="submit" class="btn btn-primary">Sửa</button>
 				</div>
 				<div>
-					<a class="btn btn-outline-primary" asp-controller="LopHoc" asp-action="Index" role="button">Hủy bỏ</a>
+					<a class="btn btn-outline-primary" asp-controller="Diem" asp-action="Index" role="button">Hủy bỏ</a>
 				</div>
 			</div>
 		</form>
-</div>
+	</div>
 </div>
