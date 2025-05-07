@@ -1,9 +1,11 @@
 ﻿using DLL.DTO;
 using DLL.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuanLyLopHoc.Controllers
 {
+    [Authorize]
     public class LopHocController : Controller
     {
         private readonly AppDbContext context;

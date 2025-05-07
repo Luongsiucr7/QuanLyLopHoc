@@ -1,12 +1,14 @@
 ﻿using System.Linq;
 using DLL.DTO;
 using DLL.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Controllers
 {
+    [Authorize]
     public class GiaoVienController : Controller
     {
 

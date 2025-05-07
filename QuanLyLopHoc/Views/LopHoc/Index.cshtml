@@ -2,8 +2,17 @@
 @using DLL.Model;
 @{
 	ViewData["Title"] = "Lớp học"; 
-	Layout = "_AdminLayout"; 
+    var role = Context.Session.GetInt32("VaiTro");
+    if (role == 1)
+    {
+        Layout = "_GiaoVienLayout";
+    }
+    else if (role == 2)
+    {
+        Layout = "_AdminLayout";
+    }
 	var danhSach = ViewBag.DanhSachLopHoc as List<LopHoc>;
+    
 }
 
 <h2 class="text-center mb-3">Danh sách lớp học</h2>

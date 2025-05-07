@@ -1,4 +1,4 @@
-﻿@model DLL.Model.NguoiDung
+﻿@model DLL.DTO.HocSinhDto
 @{
     ViewData["Title"] = "Đăng Ký";
 }
@@ -80,15 +80,9 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <div class="form-floating">
-                                            <select class="form-select" asp-for="IdLopHoc">
+                                            <select asp-for="IdLopHoc" asp-items="ViewBag.DanhSachLop" class="form-control">
                                                 <option value="">-- Chọn lớp học --</option>
-                                                @* lỗi k dính vào bảng người dùng *@
-                                                @foreach (var lop in ViewBag.DanhSachLop as List<DLL.Model.LopHoc>)
-                                                {
-                                                    <option value="@lop.Id">@lop.TenLop</option>
-                                                }
                                             </select>
-                                            <label asp-for="IdLopHoc">Lớp học</label>
                                             <span asp-validation-for="IdLopHoc" class="text-danger"></span>
                                         </div>
                                     </div>

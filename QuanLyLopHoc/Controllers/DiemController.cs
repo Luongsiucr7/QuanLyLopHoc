@@ -1,9 +1,11 @@
 ﻿using DLL.DTO;
 using DLL.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace QuanLyLopHoc.Controllers
 {
+    [Authorize]
     public class DiemController : Controller
     {
         private readonly AppDbContext context;
@@ -11,6 +13,7 @@ namespace QuanLyLopHoc.Controllers
         public DiemController(AppDbContext context)
         {
             this.context = context;
+                 
         }
         public IActionResult Index()
         {

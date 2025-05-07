@@ -1,6 +1,14 @@
 ﻿@model List<DLL.DTO.BangDiemHocSinhDto>;
 @{
-	Layout = "_AdminLayout";	
+	var role = Context.Session.GetInt32("VaiTro");
+	if (role == 1)
+	{
+		Layout = "_GiaoVienLayout";
+	}
+	else if (role == 2)
+	{
+		Layout = "_AdminLayout";
+	}
 }
 <h2>Bảng điểm lớp học</h2>
 <h2 class="text-center">Bảng điểm lớp học</h2>

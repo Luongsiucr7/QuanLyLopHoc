@@ -2,7 +2,16 @@
 @using DLL.Model
 @{
 	ViewData["Title"] = "Điểm";
-	Layout = "_AdminLayout";
+	
+    var role = Context.Session.GetInt32("VaiTro");
+    if (role == 1)
+    {
+        Layout = "_GiaoVienLayout";
+    }
+	else if (role == 2)
+    {
+        Layout = "_AdminLayout";
+    }
 	var danhSach = ViewBag.DanhSachDiem as List<Diem>;
 }
 

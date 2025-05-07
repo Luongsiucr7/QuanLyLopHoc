@@ -29,7 +29,7 @@
                     <i class="fas fa-user fa-fw"></i> Admin
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -46,22 +46,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                             Trang chủ
                         </a>
-                        <a class="nav-link" asp-controller="LopHoc" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>
-                            Lớp học
-                        </a>
-                        <a class="nav-link" asp-controller="MonHoc" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
-                            Môn học
-                        </a>
-                        <a class="nav-link" asp-controller="Diem" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                            Điểm
-                        </a>
-                        <a class="nav-link" asp-controller="HocSinh" asp-action="Index">
-                            <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                            Học sinh
-                        </a>
+                        <partial name="_chiaPhanQuyen"/>
                         <a class="nav-link" asp-controller="GiaoVien" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
                             Giáo viên

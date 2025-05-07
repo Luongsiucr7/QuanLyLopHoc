@@ -1,10 +1,12 @@
 ﻿using DLL.DTO;
 using DLL.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Controllers
 {
+    [Authorize]
     public class BangDiemLopController : Controller
     {
         private readonly AppDbContext _context;

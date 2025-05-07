@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace QuanLyLopHoc.Controllers
 {
+    [Authorize]
     public class HocSinhController : Controller
     {
         private readonly AppDbContext context;
