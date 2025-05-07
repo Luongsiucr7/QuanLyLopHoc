@@ -57,6 +57,8 @@ namespace QuanLyLopHoc.Controllers
                         group d by new { nd.Id, nd.TenNguoiDung, mh.TenMon } into g
                         select new LopDangDayDto
                         {
+                            IdHocSinh = g.Key.Id,
+                            IdMon = context.MonHocs.FirstOrDefault(m => m.TenMon == g.Key.TenMon).Id,
                             TenHocSinh = g.Key.TenNguoiDung,
                             TenMon = g.Key.TenMon,
                             DiemGiuaKy = g.Where(x => x != null && x.TenDiem == "Giữa Kỳ").Select(x => x.SoDiem).FirstOrDefault(),
@@ -67,12 +69,32 @@ namespace QuanLyLopHoc.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(int? idLopHoc, string? tenMon)
+        public IActionResult Index(LopDangDayDto lop)
         {
+            var diemGiuaKy = context.Diems
+       .FirstOrDefault(d => d.IdNguoiDung == lop.IdHocSinh && d.IdMonHoc == lop.IdMon && d.TenDiem == "Giữa Kỳ");
 
+            var diemCuoiKy = context.Diems
+                .FirstOrDefault(d => d.IdNguoiDung == lop.IdHocSinh && d.IdMonHoc == lop.IdMon && d.TenDiem == "Cuối Kỳ");
 
+            if (diemGiuaKy != null)
+            {
+                diemGiuaKy.SoDiem = lop.DiemGiuaKy;
+            }
 
-         return RedirectToAction("Index");
+            if (diemCuoiKy != null)
+            {
+                diemCuoiKy.SoDiem = lop.DiemCuoiKy;
+            }
+
+            context.SaveChanges();
+
+            return RedirectToAction("Index", new
+            {
+                idLopHoc = context.LopMons
+      .Where(lm => lm.IdNguoiDung == HttpContext.Session.GetInt32("Id") && lm.IdMonHoc == lop.IdMon)
+      .Select(lm => lm.IdLop).FirstOrDefault()
+            });
         }
     }
 }

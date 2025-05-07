@@ -48,7 +48,13 @@ else
                     <td>@Model[i].DiemGiuaKy</td>
                     <td>@Model[i].DiemCuoiKy</td>
                     <td>
-                        <a asp-controller="" asp-action=""></a>
+                        <form asp-action="Index" asp-controller="LopDangDay" method="post" class="d-flex gap-1">
+                            <input type="hidden" name="IdHocSinh" value="@Model[i].IdHocSinh" />
+                            <input type="hidden" name="IdMon" value="@Model[i].IdMon" />
+                            <input type="number" name="DiemGiuaKy" value="@Model[i].DiemGiuaKy" class="form-control form-control-sm" placeholder="Giữa kỳ" step="0.1" required style="width: 70px;" />
+                            <input type="number" name="DiemCuoiKy" value="@Model[i].DiemCuoiKy" class="form-control form-control-sm" placeholder="Cuối kỳ" step="0.1" required style="width: 70px;" />
+                            <button type="submit" class="btn btn-sm btn-primary">Lưu</button>
+                        </form>
                     </td>
                 </tr>
             }
