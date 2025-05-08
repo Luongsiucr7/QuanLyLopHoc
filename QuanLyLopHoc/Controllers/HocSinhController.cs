@@ -24,7 +24,7 @@ namespace QuanLyLopHoc.Controllers
         {
             var danhSachHocSinh = context.NguoiDungs
                 .Include(x => x.IdLopHocNavigation)
-                .Where(x => x.VaiTro == 0)
+                .Where(x => x.VaiTro == 0 && x.TrangThai ==1)
                 .ToList();
 
             var totalItemCount = danhSachHocSinh.Count();
@@ -49,11 +49,10 @@ namespace QuanLyLopHoc.Controllers
             {
                 return View(hocSinhDto);
             }
-            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            newFileName += Path.GetExtension(TenLinkAnh!.FileName);
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(TenLinkAnh.FileName);
+            string path = Path.Combine(environment.WebRootPath, "hocsinh", newFileName);
 
-            string imageFullPath = environment.WebRootPath + "/hocsinh/" + newFileName;
-            using (var stream = System.IO.File.Create(imageFullPath))
+            using (var stream = new FileStream(path, FileMode.Create))
             {
                 TenLinkAnh.CopyTo(stream);
             }
@@ -111,33 +110,53 @@ namespace QuanLyLopHoc.Controllers
             {
                 return RedirectToAction("Index", "HocSinh");
             }
-            string newFileName = hocSinh.TenLinkAnh;
-            if(hocSinhDto.TenLinkAnh != null)
-            {
-                newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                newFileName += Path.GetExtension(TenLinkAnh.FileName);
-                string imageFullPath = environment.WebRootPath + "/hocsinh/" + newFileName;
-                using (var stream = System.IO.File.Create(imageFullPath))
-                {
-                    TenLinkAnh.CopyTo(stream);
-                }
-                string oldImageFullPath = environment.WebRootPath + "/hocsinh/" + hocSinh.TenLinkAnh;
-                System.IO.File.Delete(oldImageFullPath);
-            }
-                
-              // lưu tên file ảnh
-            
             hocSinh.TenNguoiDung = hocSinhDto.TenNguoiDung;
             hocSinh.Email = hocSinhDto.Email;
             hocSinh.SoDienThoai = hocSinhDto.SoDienThoai;
             hocSinh.DiaChi = hocSinhDto.DiaChi;
             hocSinh.GioiTinh = hocSinhDto.GioiTinh;
             hocSinh.NgaySinh = DateOnly.FromDateTime(hocSinhDto.NgaySinh);
-            hocSinh.MatKhau = hocSinhDto.MatKhau;
-            hocSinh.TenLinkAnh = newFileName;
+            hocSinh.MatKhau = hocSinhDto.MatKhau;         
             hocSinh.TrangThai = hocSinhDto.TrangThai;
             hocSinh.IdLopHoc = hocSinhDto.IdLopHoc;
 
+            if (TenLinkAnh != null)
+            {
+                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(TenLinkAnh.FileName);
+                string path = Path.Combine(environment.WebRootPath, "hocsinh", newFileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    TenLinkAnh.CopyTo(stream);
+                }
+
+                if (!string.IsNullOrEmpty(hocSinh.TenLinkAnh))
+                {
+                    string oldPath = Path.Combine(environment.WebRootPath, "giaovien", hocSinh.TenLinkAnh);
+                    if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                }
+
+                hocSinh.TenLinkAnh = newFileName;
+            }
+
+
+
+            context.SaveChanges();
+
+            ViewData["Id"] = hocSinh.Id;
+            ViewData["LopId"] = hocSinh.IdLopHoc;
+            ViewData["TenLinkAnh"] = hocSinh.TenLinkAnh;
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var hocSinh = context.NguoiDungs.Find(id);
+            if (hocSinh == null)
+            {
+                return RedirectToAction("Index", "HocSinh");
+            }
+            hocSinh.TrangThai = 0;
             context.SaveChanges();
             return RedirectToAction("Index");
         }

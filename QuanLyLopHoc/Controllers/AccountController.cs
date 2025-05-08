@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace QuanLyLopHoc.Controllers
 {
@@ -22,10 +23,12 @@ namespace QuanLyLopHoc.Controllers
         {
             return View();
         }
+
         public IActionResult Login()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(NguoiDung nguoiDung)
         {
@@ -53,6 +56,7 @@ namespace QuanLyLopHoc.Controllers
                 HttpContext.Session.SetInt32("VaiTro", user.VaiTro);
                 HttpContext.Session.SetInt32("Id", user.Id);
                 HttpContext.Session.SetString("TenNguoiDung", user.TenNguoiDung);
+                HttpContext.Session.SetInt32("IdLop", user.IdLopHoc ?? 0);
 
                 if (user.VaiTro == 1)
                     return RedirectToAction("IndexGiaoVien", "TrangChu");
@@ -64,17 +68,17 @@ namespace QuanLyLopHoc.Controllers
 
             ViewBag.Error = "Sai email hoặc mật khẩu.";
             return View();
-        }  
+        }
 
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync();
-            return RedirectToAction("Login");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult DangKy()
         {
-            ViewBag.DanhSachLop = new SelectList(context.LopHocs.ToList(), " Id", "TenLop");
+            ViewBag.DanhSachLop = new SelectList(context.LopHocs.ToList(), "Id", "TenLop");
             return View(new HocSinhDto());
         }
 
@@ -83,9 +87,11 @@ namespace QuanLyLopHoc.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.DanhSachLop = new SelectList(context.LopHocs.ToList(), "Id", "TenLop");
                 return View(hocSinhDto);
-            }       
-                var hocSinh = new NguoiDung
+            }
+
+            var hocSinh = new NguoiDung
             {
                 TenNguoiDung = hocSinhDto.TenNguoiDung,
                 Email = hocSinhDto.Email,
@@ -94,13 +100,19 @@ namespace QuanLyLopHoc.Controllers
                 GioiTinh = hocSinhDto.GioiTinh,
                 NgaySinh = DateOnly.FromDateTime(hocSinhDto.NgaySinh),
                 MatKhau = hocSinhDto.MatKhau,
-                VaiTro = 0,       
+                VaiTro = 0,
                 TrangThai = 1,
                 IdLopHoc = hocSinhDto.IdLopHoc
             };
+
             context.NguoiDungs.Add(hocSinh);
             context.SaveChanges();
-            return RedirectToAction("Login","Account");
+            return RedirectToAction("Login", "Account");
         }
-    }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+}
 }

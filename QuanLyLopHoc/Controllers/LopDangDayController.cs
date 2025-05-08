@@ -1,11 +1,13 @@
 ﻿using DLL.DTO;
 using DLL.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Controllers
 {
+    [Authorize(Roles = "GiaoVien")]
     public class LopDangDayController : Controller
     {
         private readonly AppDbContext context;
@@ -54,13 +56,14 @@ namespace QuanLyLopHoc.Controllers
                             on new { ndId = nd.Id, mhId = mh.Id }
                             equals new { ndId = d.IdNguoiDung.Value, mhId = d.IdMonHoc.Value } into diemJoin
                         from d in diemJoin.DefaultIfEmpty()
-                        group d by new { nd.Id, nd.TenNguoiDung, mh.TenMon } into g
+                        group d by new { nd.Id, nd.TenNguoiDung, mh.TenMon,lh.TenLop } into g
                         select new LopDangDayDto
                         {
                             IdHocSinh = g.Key.Id,
                             IdMon = context.MonHocs.FirstOrDefault(m => m.TenMon == g.Key.TenMon).Id,
                             TenHocSinh = g.Key.TenNguoiDung,
                             TenMon = g.Key.TenMon,
+                            TenLop = g.Key.TenLop,
                             DiemGiuaKy = g.Where(x => x != null && x.TenDiem == "Giữa Kỳ").Select(x => x.SoDiem).FirstOrDefault(),
                             DiemCuoiKy = g.Where(x => x != null && x.TenDiem == "Cuối Kỳ").Select(x => x.SoDiem).FirstOrDefault()
                         }).ToList();
@@ -71,8 +74,10 @@ namespace QuanLyLopHoc.Controllers
         [HttpPost]
         public IActionResult Index(LopDangDayDto lop)
         {
+            var idGiaoVien = HttpContext.Session.GetInt32("Id");
+
             var diemGiuaKy = context.Diems
-       .FirstOrDefault(d => d.IdNguoiDung == lop.IdHocSinh && d.IdMonHoc == lop.IdMon && d.TenDiem == "Giữa Kỳ");
+                .FirstOrDefault(d => d.IdNguoiDung == lop.IdHocSinh && d.IdMonHoc == lop.IdMon && d.TenDiem == "Giữa Kỳ");
 
             var diemCuoiKy = context.Diems
                 .FirstOrDefault(d => d.IdNguoiDung == lop.IdHocSinh && d.IdMonHoc == lop.IdMon && d.TenDiem == "Cuối Kỳ");
@@ -81,19 +86,39 @@ namespace QuanLyLopHoc.Controllers
             {
                 diemGiuaKy.SoDiem = lop.DiemGiuaKy;
             }
+            else
+            {
+                context.Diems.Add(new DLL.Model.Diem
+                {
+                    IdNguoiDung = lop.IdHocSinh,
+                    IdMonHoc = lop.IdMon,
+                    TenDiem = "Giữa Kỳ",
+                    SoDiem = lop.DiemGiuaKy
+                });
+            }
 
             if (diemCuoiKy != null)
             {
                 diemCuoiKy.SoDiem = lop.DiemCuoiKy;
+            }
+            else
+            {
+                context.Diems.Add(new DLL.Model.Diem
+                {
+                    IdNguoiDung = lop.IdHocSinh,
+                    IdMonHoc = lop.IdMon,
+                    TenDiem = "Cuối Kỳ",
+                    SoDiem = lop.DiemCuoiKy
+                });
             }
 
             context.SaveChanges();
 
             return RedirectToAction("Index", new
             {
-                idLopHoc = context.LopMons
-      .Where(lm => lm.IdNguoiDung == HttpContext.Session.GetInt32("Id") && lm.IdMonHoc == lop.IdMon)
-      .Select(lm => lm.IdLop).FirstOrDefault()
+                 idLopHoc = context.LopMons
+                .Where(lm => lm.IdNguoiDung == HttpContext.Session.GetInt32("Id") && lm.IdMonHoc == lop.IdMon)
+                .Select(lm => lm.IdLop).FirstOrDefault()
             });
         }
     }

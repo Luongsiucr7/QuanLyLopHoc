@@ -18,8 +18,7 @@ namespace QuanLyLopHoc.Controllers
         public IActionResult Index()
         {
             ViewBag.DanhSachDiem = context.Diems
-                 .GroupBy(d => d.TenDiem)
-                 .Select(g => g.First())
+                 .Where(x => x.TrangThai == 1)
                  .ToList();
             return View(new DiemDto());
         }
@@ -74,6 +73,17 @@ namespace QuanLyLopHoc.Controllers
             return RedirectToAction("Index", "Diem");
         }
 
+        public IActionResult Delete(int id)
+        {
+            var diem = context.Diems.Find(id);
+            if (diem == null)
+            {
+                return RedirectToAction("Index", "Diem");
+            }
+            diem.TrangThai = 0;
+            context.SaveChanges();
+            return RedirectToAction("Index", "Diem");
+        }
 
     }
 }

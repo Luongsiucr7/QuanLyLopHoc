@@ -20,7 +20,7 @@ namespace QuanLyLopHoc
                     .AddCookie(options =>
                     {
                         options.LoginPath = "/Account/Login"; // Trang đăng nhập
-                        options.AccessDeniedPath = "/Account/AccessDenied"; // Trang lỗi khi không có quyền
+                        options.AccessDeniedPath = "/Account/AccessDenied"; // Trang lỗi khi không có quyền                       
                     });
             builder.Services.AddSession();         
             var app = builder.Build();

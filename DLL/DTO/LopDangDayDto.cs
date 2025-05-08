@@ -14,6 +14,7 @@ namespace DLL.DTO
 
         public string TenHocSinh { get; set; }
         public string TenMon { get; set; }
+        public string TenLop { get; set; }
         public decimal DiemGiuaKy { get; set; }
         public decimal DiemCuoiKy { get; set; }
     }

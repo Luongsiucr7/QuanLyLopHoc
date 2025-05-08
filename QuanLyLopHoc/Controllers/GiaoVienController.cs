@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class GiaoVienController : Controller
     {
 
@@ -23,7 +23,7 @@ namespace QuanLyLopHoc.Controllers
         public IActionResult Index(int page = 1, int pageSize = 10)
         {
             var giaoVienQuery = context.NguoiDungs
-                .Where(x => x.VaiTro == 1)
+                .Where(x => x.VaiTro == 1 && x.TrangThai ==1)
                 .ToList();
 
             var monTheoNguoiDung = context.LopMons
@@ -61,13 +61,14 @@ namespace QuanLyLopHoc.Controllers
             {
                 return View(giaoVienDto);
             }
-            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-            newFileName += Path.GetExtension(TenLinkAnh!.FileName);
-            string imageFullPath = environment.WebRootPath + "/giaovien/" + newFileName;
-            using (var stream = System.IO.File.Create(imageFullPath))
+            string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(TenLinkAnh.FileName);
+            string path = Path.Combine(environment.WebRootPath, "giaovien", newFileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
             {
                 TenLinkAnh.CopyTo(stream);
             }
+
             var giaoVien = new NguoiDung
             {
                 TenNguoiDung = giaoVienDto.TenNguoiDung,
@@ -121,23 +122,47 @@ namespace QuanLyLopHoc.Controllers
             {
                 return RedirectToAction("Index", "GiaoVien");
             }
-            if (TenLinkAnh != null)
-            {
-                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
-                newFileName += Path.GetExtension(TenLinkAnh.FileName);
-                string imageFullPath = environment.WebRootPath + "/giaovien/" + newFileName;
-                using (var stream = System.IO.File.Create(imageFullPath))
-                {
-                    TenLinkAnh.CopyTo(stream);
-                }
-                giaoVien.TenLinkAnh = newFileName;
-            }
             giaoVien.TenNguoiDung = giaoVienDto.TenNguoiDung;
             giaoVien.Email = giaoVienDto.Email;
             giaoVien.SoDienThoai = giaoVienDto.SoDienThoai;
             giaoVien.DiaChi = giaoVienDto.DiaChi;
             giaoVien.GioiTinh = giaoVienDto.GioiTinh;
             giaoVien.NgaySinh = DateOnly.FromDateTime(giaoVienDto.NgaySinh);
+
+            if (TenLinkAnh != null)
+            {
+                string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(TenLinkAnh.FileName);
+                string path = Path.Combine(environment.WebRootPath, "giaovien", newFileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    TenLinkAnh.CopyTo(stream);
+                }
+
+                if (!string.IsNullOrEmpty(giaoVien.TenLinkAnh))
+                {
+                    string oldPath = Path.Combine(environment.WebRootPath, "giaovien", giaoVien.TenLinkAnh);
+                    if (System.IO.File.Exists(oldPath)) System.IO.File.Delete(oldPath);
+                }
+
+                giaoVien.TenLinkAnh = newFileName;
+            }
+
+            context.SaveChanges();
+
+
+            ViewData["Id"] = giaoVien.Id;
+            ViewData["TenLinkAnh"] = giaoVien.TenLinkAnh;
+            return RedirectToAction("Index");
+        }
+        public IActionResult Delete(int id)
+        {
+            var giaoVien = context.NguoiDungs.Find(id);
+            if (giaoVien == null)
+            {
+                return RedirectToAction("Index", "GiaoVien");
+            }
+            giaoVien.TrangThai = 0;
             context.SaveChanges();
             return RedirectToAction("Index");
         }

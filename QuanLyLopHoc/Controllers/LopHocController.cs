@@ -16,7 +16,7 @@ namespace QuanLyLopHoc.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.DanhSachLopHoc = context.LopHocs.ToList();
+            ViewBag.DanhSachLopHoc = context.LopHocs.Where(x => x.TrangThai ==1).ToList();
             return View(new LopHocDTO());
         }
      

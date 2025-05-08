@@ -1,7 +1,9 @@
-﻿@model DLL.Model.NguoiDung
+﻿@model DLL.DTO.GiaoVienDto
 @{
     ViewData["Title"] = "Thông tin cá nhân";
     Layout = "_GiaoVienLayout";
+    var tenLinkAnh = ViewData["TenLinkAnh"] as string;
+	var id = ViewData["Id"];
 }
 
 <div class="container-fluid px-4">
@@ -12,18 +14,21 @@
                     <h3 class="text-center font-weight-light my-3">Thông tin cá nhân</h3>
                 </div>
                 <div class="card-body">
-                    <form asp-action="CapNhatThongTin" method="post">
-                        <input type="hidden" asp-for="Id" />
+                    <form method="post" enctype="multipart/form-data" asp-controller="ThongTinCaNhan" asp-action="Index" asp-route-id="@id">
+                        
 
                         <div class="row g-3 mb-3">
-                            <div class="col-md-6">
+                            <div class="col">
                                 <div class="form-floating">
                                     <input asp-for="TenNguoiDung" class="form-control" type="text" placeholder="Họ và tên" />
                                     <label asp-for="TenNguoiDung">Họ và tên</label>
                                     <span asp-validation-for="TenNguoiDung" class="text-danger small"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
                                 <div class="form-floating">
                                     <input asp-for="Email" class="form-control" type="email" placeholder="Email" />
                                     <label asp-for="Email">Email</label>
@@ -33,14 +38,17 @@
                         </div>
 
                         <div class="row g-3 mb-3">
-                            <div class="col-md-6">
+                            <div class="col">
                                 <div class="form-floating">
                                     <input asp-for="DiaChi" class="form-control" type="text" placeholder="Địa chỉ" />
                                     <label asp-for="DiaChi">Địa chỉ</label>
                                     <span asp-validation-for="DiaChi" class="text-danger small"></span>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
                                 <div class="form-floating">
                                     <input asp-for="SoDienThoai" class="form-control" type="text" placeholder="Số điện thoại" />
                                     <label asp-for="SoDienThoai">Số điện thoại</label>
@@ -49,8 +57,8 @@
                             </div>
                         </div>
 
-                        <div class="row g-3 mb-3 align-items-center">
-                            <div class="col-md-6">
+                        <div class="row g-3 mb-3">
+                            <div class="col">
                                 <label class="form-label d-block">Giới tính</label>
                                 <div class="d-flex gap-4">
                                     <div class="form-check">
@@ -64,11 +72,25 @@
                                 </div>
                                 <span asp-validation-for="GioiTinh" class="text-danger small"></span>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col">
                                 <div class="form-floating">
                                     <input asp-for="NgaySinh" class="form-control" type="date" placeholder="Ngày sinh" />
                                     <label asp-for="NgaySinh">Ngày sinh</label>
                                     <span asp-validation-for="NgaySinh" class="text-danger small"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input type="file" class="form-control" asp-for="TenLinkAnh" />
+                                    @if (!string.IsNullOrEmpty(tenLinkAnh))
+                                    {
+                                        <img src="~/giaovien/@tenLinkAnh" alt="Ảnh giáo viên" width="100" height="100" class="mt-2" />
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -84,3 +106,7 @@
         </div>
     </div>
 </div>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS (để modal hoạt động) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

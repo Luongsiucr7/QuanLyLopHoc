@@ -17,7 +17,7 @@ namespace QuanLyLopHoc.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.DanhSachMonHoc = context.MonHocs.ToList();
+            ViewBag.DanhSachMonHoc = context.MonHocs.Where(x => x.TrangThai ==1).ToList();
             return View(new MonHocDto());
         }
 
@@ -71,5 +71,16 @@ namespace QuanLyLopHoc.Controllers
             return RedirectToAction("Index", "MonHoc");
         }
 
-    }
+        public IActionResult Delete(int id)
+        {
+            var monHoc = context.MonHocs.Find(id);
+            if (monHoc == null)
+            {
+                return RedirectToAction("Index", "MonHoc");
+            }
+            monHoc.TrangThai = 0;
+            context.SaveChanges();
+            return RedirectToAction("Index", "MonHoc");
+        }
+        }
 }

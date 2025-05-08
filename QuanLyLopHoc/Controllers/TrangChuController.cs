@@ -17,20 +17,20 @@ namespace QuanLyLopHoc.Controllers
         [Authorize(Roles = "Admin")]      
         public IActionResult Index()
         {
-            var lopHoc = context.LopHocs.ToList();
+            var lopHoc = context.LopHocs.Where(x => x.TrangThai == 1).ToList();
             return View(lopHoc);
         }
         [Authorize(Roles = "GiaoVien")]
         public IActionResult IndexGiaoVien()
         {
-            var lopHoc = context.LopHocs.ToList();
+            var lopHoc = context.LopHocs.Where(x => x.TrangThai == 1).ToList();
             return View(lopHoc);
         }
 
         [Authorize(Roles = "HocSinh")]
         public IActionResult IndexHocSinh()
         {
-            var lopHoc = context.LopHocs.ToList();
+            var lopHoc = context.LopHocs.Where(x => x.TrangThai == 1).ToList();
             return View(lopHoc);
         }
 

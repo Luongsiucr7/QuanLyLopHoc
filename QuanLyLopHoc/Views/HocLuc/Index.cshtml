@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "Chi tiết học lực học sinh";
+    Layout = "_HocSinhLayOut";
+
+    var diemGK = new List<double?> {
+        (double?)Model.DiemToan_GK,
+        (double?)Model.DiemVan_GK,
+        (double?)Model.DiemLichSu_GK,
+        (double?)Model.DiemNgoaiNgu_GK,
+        (double?)Model.DiemKhoaHoc_GK,
+        (double?)Model.DiemTheDuc_GK,
+        (double?)Model.DiemTinHoc_GK
+    };
+
+    var diemCK = new List<double?> {
+        (double?)Model.DiemToan_CK,
+        (double?)Model.DiemVan_CK,
+        (double?)Model.DiemLichSu_CK,
+        (double?)Model.DiemNgoaiNgu_CK,
+        (double?)Model.DiemKhoaHoc_CK,
+        (double?)Model.DiemTheDuc_CK,
+        (double?)Model.DiemTinHoc_CK
+    };
+
+    var validGK = diemGK.Where(d => d.HasValue).Select(d => d.Value).ToList();
+    var validCK = diemCK.Where(d => d.HasValue).Select(d => d.Value).ToList();
+
+    bool duDauDiem = validGK.Count == diemGK.Count && validCK.Count == diemCK.Count;
+
+    double tbGK = validGK.Any() ? validGK.Average() : 0;
+    double tbCK = validCK.Any() ? validCK.Average() : 0;
+
+    double diemTongKet = (tbGK * 1 + tbCK * 2) / 3;
+
+    string danhHieu = "";
+    if (duDauDiem)
+    {
+        if (diemTongKet >= 8.0)
+            danhHieu = "Giỏi";
+        else if (diemTongKet >= 6.5)
+            danhHieu = "Khá";
+        else if (diemTongKet >= 5.0)
+            danhHieu = "Trung bình";
+        else
+            danhHieu = "Yếu";
+    }
+}
+
+<div class="container-fluid px-4">
+    <div class="card shadow-lg mt-4">
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <strong>Họ và tên: </strong> @Model.TenHocSinh
+                </div>
+                <div class="col-md-6">
+                    <strong>Lớp đang học: </strong> @Model.LopHoc
+                </div>
+            </div>
+
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>Môn học</th>
+                        <th>Giữa kỳ</th>
+                        <th>Cuối kỳ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Toán</td>
+                        <td>@Model.DiemToan_GK</td>
+                        <td>@Model.DiemToan_CK</td>
+                    </tr>
+                    <tr>
+                        <td>Văn</td>
+                        <td>@Model.DiemVan_GK</td>
+                        <td>@Model.DiemVan_CK</td>
+                    </tr>
+                    <tr>
+                        <td>Lịch sử</td>
+                        <td>@Model.DiemLichSu_GK</td>
+                        <td>@Model.DiemLichSu_CK</td>
+                    </tr>
+                    <tr>
+                        <td>Ngoại ngữ</td>
+                        <td>@Model.DiemNgoaiNgu_GK</td>
+                        <td>@Model.DiemNgoaiNgu_CK</td>
+                    </tr>
+                    <tr>
+                        <td>Khoa học</td>
+                        <td>@Model.DiemKhoaHoc_GK</td>
+                        <td>@Model.DiemKhoaHoc_CK</td>
+                    </tr>
+                    <tr>
+                        <td>Thể dục</td>
+                        <td>@Model.DiemTheDuc_GK</td>
+                        <td>@Model.DiemTheDuc_CK</td>
+                    </tr>
+                    <tr>
+                        <td>Tin học</td>
+                        <td>@Model.DiemTinHoc_GK</td>
+                        <td>@Model.DiemTinHoc_CK</td>
+                    </tr>
+                </tbody>
+                <tfoot class="table-light">
+                    <tr>
+                        <th colspan="2">Điểm tổng kết</th>
+                        <th>@diemTongKet.ToString("0.00")</th>
+                    </tr>
+                    @if (duDauDiem)
+                    {
+                        <tr>
+                            <th colspan="2">Danh hiệu</th>
+                            <th>@danhHieu</th>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS (để modal hoạt động) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

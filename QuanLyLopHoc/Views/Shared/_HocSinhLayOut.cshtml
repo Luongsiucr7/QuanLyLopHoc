@@ -29,7 +29,7 @@
                     <i class="fas fa-user fa-fw"></i> Học sinh
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
+                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -41,33 +41,29 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Menu</div>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" asp-controller="TrangChu" asp-action="IndexHocSinh">
                             <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                             Trang chủ
                         </a>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLopDangHoc"
+                           aria-expanded="false" aria-controls="collapseLopDangHoc">
                             <div class="sb-nav-link-icon"><i class="fas fa-school"></i></div>
-                            Lớp học
+                            Xem điểm lớp
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book"></i></div>
-                            Môn học
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                            Điểm
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-graduation-cap"></i></div>
-                            Giáo viên
-                        </a>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-                            Thông tin cá nhân
-                        </a>
-                        <a class="nav-link" href="#">
+                        <div class="collapse" id="collapseLopDangHoc" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" asp-controller="LopDangHoc" asp-action="DiemGiuaKy">Điểm Giữa Kỳ</a>
+                                <a class="nav-link" asp-controller="LopDangHoc" asp-action="DiemCuoiKy">Điểm Cuối Kỳ</a>
+                            </nav>
+                        </div>
+                        <a class="nav-link" asp-controller="HocLuc" asp-action="Index">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-line"></i></div>
                             Học lực
+                        </a>
+                        <a class="nav-link" asp-controller="ThongTinCaNhan" asp-action="IndexHocSinh">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                            Thông tin cá nhân
                         </a>
                     </div>
                 </div>
