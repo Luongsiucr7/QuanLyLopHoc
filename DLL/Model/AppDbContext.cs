@@ -32,7 +32,7 @@ namespace DLL.Model
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-            => optionsBuilder.UseSqlServer("Data Source=LUONGNDDPH50650\\SQLEXPRESS;Initial Catalog=QuanLyLopHoc1;Integrated Security=True;Trust Server Certificate=True");
+            => optionsBuilder.UseSqlServer("Data Source=192.168.1.58;Initial Catalog=QuanLyLopHoc1;Integrated Security=false;User Id=sa;Password=KMWJ3-KY3J2-NMVD7-KG4JR-X2G8G;Timeout=200;Pooling=true;Max Pool Size=9999999;MultipleActiveResultSets=true;Encrypt=true;TrustServerCertificate=true");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
