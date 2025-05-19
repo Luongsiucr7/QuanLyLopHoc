@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyLopHoc.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class GiaoVienController : Controller
     {
 
@@ -20,11 +20,29 @@ namespace QuanLyLopHoc.Controllers
             this.context = context;
             this.environment = environment;
         }
-        public IActionResult Index(int page = 1, int pageSize = 10)
+
+        private void LoadData(int page = 1, int pageSize = 10)
         {
+            var idGiaoVien = HttpContext.Session.GetInt32("Id");
             var giaoVienQuery = context.NguoiDungs
-                .Where(x => x.VaiTro == 1 && x.TrangThai ==1)
+                .Where(x => x.VaiTro == 1 && x.TrangThai == 1)
                 .ToList();
+
+            var lopHoc = context.LopHocs
+                .Where(x => x.TrangThai == 1)
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.TenLop
+                }).ToList();
+
+
+            var danhSachMon = context.MonHocs
+                .Select(x => new SelectListItem
+                {
+                    Value = x.Id.ToString(),
+                    Text = x.TenMon
+                }).ToList();
 
             var monTheoNguoiDung = context.LopMons
                 .Join(context.MonHocs,
@@ -38,6 +56,7 @@ namespace QuanLyLopHoc.Controllers
                 ))
                 .ToDictionary(x => x.Key, x => x.Value);
 
+
             var totalItemCount = giaoVienQuery.Count();
             var totalPages = (int)Math.Ceiling((double)totalItemCount / pageSize);
 
@@ -46,24 +65,35 @@ namespace QuanLyLopHoc.Controllers
                 .Take(pageSize)
                 .ToList();
 
+
+            ViewBag.DanhSachMon = danhSachMon;
+            ViewBag.DanhSachLop = lopHoc;
             ViewBag.MonTheoNguoiDungId = monTheoNguoiDung;
             ViewBag.DanhSachGiaoVien = pagedGiaoVien;
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
+        }
+        public IActionResult Index(int page = 1, int pageSize = 10)
+        {
+            LoadData(page, pageSize);
 
             return View(new GiaoVienDto());
         }
 
+
         [HttpPost]
-        public IActionResult Index(GiaoVienDto giaoVienDto, IFormFile TenLinkAnh)
+        public IActionResult Index(GiaoVienDto giaoVienDto, IFormFile TenLinkAnh , int page = 1, int pageSize = 10)
         {
             if (!ModelState.IsValid)
             {
+                LoadData(page, pageSize);
+                ViewBag.ShowModal = true;
                 return View(giaoVienDto);
+
             }
+
             string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(TenLinkAnh.FileName);
             string path = Path.Combine(environment.WebRootPath, "giaovien", newFileName);
-
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 TenLinkAnh.CopyTo(stream);
@@ -82,18 +112,48 @@ namespace QuanLyLopHoc.Controllers
                 TenLinkAnh = newFileName,
                 TrangThai = 1
             };
+
             context.NguoiDungs.Add(giaoVien);
+            context.SaveChanges(); 
+
+            foreach (var idLop in giaoVienDto.DanhSachIdLop)
+            {
+                foreach (var idMon in giaoVienDto.DanhSachIdMon)
+                {
+                    
+                    var daTonTai = context.LopMons.Any(lm =>
+                        lm.IdLop == idLop &&
+                        lm.IdMonHoc == idMon &&
+                        lm.IdNguoiDung == giaoVien.Id);
+
+                    if (!daTonTai)
+                    {
+                        var lopMon = new LopMon
+                        {
+                            IdLop = idLop,
+                            IdMonHoc = idMon,
+                            IdNguoiDung = giaoVien.Id,
+                            TrangThai = 1
+                        };
+                        context.LopMons.Add(lopMon);
+                    }
+                }
+            }
+
             context.SaveChanges();
             return RedirectToAction("Index");
         }
 
+
         public IActionResult Edit(int id)
         {
+            var idGiaoVien = HttpContext.Session.GetInt32("Id");
             var giaoVien = context.NguoiDungs.Find(id);
             if (giaoVien == null)
             {
-                return RedirectToAction("Index","GiaoVien");
+                return RedirectToAction("Index", "GiaoVien");
             }
+
             var giaoVienDto = new GiaoVienDto
             {
                 TenNguoiDung = giaoVien.TenNguoiDung,
@@ -104,6 +164,7 @@ namespace QuanLyLopHoc.Controllers
                 NgaySinh = giaoVien.NgaySinh.ToDateTime(TimeOnly.MinValue),
                 TrangThai = giaoVien.TrangThai
             };
+
 
             ViewData["Id"] = giaoVien.Id;
             ViewData["TenLinkAnh"] = giaoVien.TenLinkAnh;
@@ -164,6 +225,39 @@ namespace QuanLyLopHoc.Controllers
             }
             giaoVien.TrangThai = 0;
             context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult ThemChuNhiem()
+        {
+            var giaoVienChuaChuNhiem = context.NguoiDungs
+               .Where(nd => nd.VaiTro == 1)
+               .Where(nd => !context.LopGiaoViens.Any(lgv => lgv.IdNguoiDung == nd.Id && lgv.TrangThai == 1))
+               .ToList();
+
+            var lopChuaChuNhiem = context.LopHocs
+                .Where(lh => !context.LopGiaoViens.Any(lgv => lgv.IdLopHoc == lh.Id && lgv.TrangThai == 1))
+                .ToList();
+
+            ViewBag.GiaoVienChuaChuNhiem = giaoVienChuaChuNhiem;
+            ViewBag.LopChuaChuNhiem = lopChuaChuNhiem;
+
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ThemChuNhiem(int id_nguoi_dung, int id_lop_hoc)
+        {
+            var chuNhiem = new LopGiaoVien
+            {
+                IdNguoiDung = id_nguoi_dung,
+                IdLopHoc = id_lop_hoc,
+                TrangThai = 1
+            };
+
+            context.LopGiaoViens.Add(chuNhiem);
+            context.SaveChanges();
+
             return RedirectToAction("Index");
         }
     }

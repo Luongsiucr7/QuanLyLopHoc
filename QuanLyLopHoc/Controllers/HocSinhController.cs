@@ -20,17 +20,23 @@ namespace QuanLyLopHoc.Controllers
             this.context = context;
             this.environment = environment;
         }
-        public IActionResult Index(int page = 1, int pageSize = 10)
+
+        private void LoadData(int page = 1, int pageSize = 10)
         {
             var danhSachHocSinh = context.NguoiDungs
                 .Include(x => x.IdLopHocNavigation)
-                .Where(x => x.VaiTro == 0 && x.TrangThai ==1)
+                .Where(x => x.VaiTro == 0 && x.TrangThai == 1)
                 .ToList();
-
-            var totalItemCount = danhSachHocSinh.Count();
+         
+            var totalItemCount = context.NguoiDungs
+                .Where(x => x.VaiTro == 0 && x.TrangThai == 1)
+                .Count();
+         
             var totalPages = (int)Math.Ceiling((double)totalItemCount / pageSize);
 
-            var pagedHocSinh = danhSachHocSinh
+            var pagedHocSinh = context.NguoiDungs
+                .Include(x => x.IdLopHocNavigation)
+                .Where(x => x.VaiTro == 0 && x.TrangThai == 1)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -39,14 +45,70 @@ namespace QuanLyLopHoc.Controllers
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = totalPages;
             ViewBag.DanhSachLop = new SelectList(context.LopHocs.ToList(), "Id", "TenLop");
+        }
+
+        private void LoadDataGiaoVien(int page = 1, int pageSize = 10)
+        {
+            var idGiaoVien = HttpContext.Session.GetInt32("Id");
+
+            var idLopHocChuNhiem = context.LopGiaoViens
+                .Where(x => x.IdNguoiDung == idGiaoVien)
+                .Select(x => x.IdLopHoc)
+                .FirstOrDefault();
+
+            var danhSachHocSinh = context.NguoiDungs
+              .Include(x => x.IdLopHocNavigation)
+              .Where(x => x.VaiTro == 0 && x.TrangThai == 1 && x.IdLopHoc == idLopHocChuNhiem)
+              .ToList();
+
+            var totalItemCount = context.NguoiDungs
+               .Where(x => x.VaiTro == 0 && x.TrangThai == 1 && x.IdLopHoc == idLopHocChuNhiem)
+               .Count();
+
+            var totalPages = (int)Math.Ceiling((double)totalItemCount / pageSize);
+
+            var pagedHocSinh = context.NguoiDungs
+                .Include(x => x.IdLopHocNavigation)
+                .Where(x => x.VaiTro == 0 && x.TrangThai == 1 && x.IdLopHoc == idLopHocChuNhiem)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            Console.WriteLine($"idLopHocChuNhiem = {idLopHocChuNhiem}");
+
+            ViewBag.DanhSachHocSinh = pagedHocSinh;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+            ViewBag.DanhSachLop = new SelectList(context.LopHocs.ToList(), "Id", "TenLop");
+        }
+        public IActionResult Index(int page = 1, int pageSize = 10)
+        {
+            var vaiTro = HttpContext.Session.GetInt32("VaiTro");
+
+            if (vaiTro == 1) // 1 là giáo viên
+            {
+                LoadDataGiaoVien(page, pageSize);
+            }
+            else if (vaiTro == 2) // 2 là admin
+            {
+                LoadData(page, pageSize);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account"); // hoặc trả về 403
+            }
 
             return View(new HocSinhDto());
         }
+
+
         [HttpPost]
-        public IActionResult Index(HocSinhDto hocSinhDto, IFormFile TenLinkAnh)
+        public IActionResult Index(HocSinhDto hocSinhDto, IFormFile TenLinkAnh, int page = 1, int pageSize = 10)
         {
             if (!ModelState.IsValid)
             {
+                LoadData(page, pageSize);
+                ViewBag.ShowModal = true;
                 return View(hocSinhDto);
             }
             string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff") + Path.GetExtension(TenLinkAnh.FileName);

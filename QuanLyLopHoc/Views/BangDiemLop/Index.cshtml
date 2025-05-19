@@ -9,10 +9,13 @@
 	{
 		Layout = "_AdminLayout";
 	}
+
+	var tenDiem = ViewBag.TenDiem as string;
+	var idLop = ViewBag.IdLop;
 }
 <h2>Bảng điểm lớp học</h2>
-<h2 class="text-center">Bảng điểm lớp học</h2>
-
+<h2 class="text-center">Bảng Điểm @tenDiem</h2>
+<a class="baocao" asp-controller="BangDiemLop" asp-action="XuatBaoCao" asp-route-idLop="@idLop" onclick="return confirm('Bạn muốn xuất file báo cáo lớp?');">Báo cáo học lực</a>
 <table class="table table-bordered table-hover text-center">
 	<thead class="table-dark">
 		<tr>
@@ -26,7 +29,8 @@
 			<th>Ngoại ngữ</th>
 			<th>Khoa học</th>
 			<th>Thể dục</th>
-			<th>Tin học</th>
+			<th>Tin học</th>          
+            <th>Điểm trung bình</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -47,6 +51,7 @@
 				<td>@item.DiemKhoaHoc</td>
 				<td>@item.DiemTheDuc</td>
 				<td>@item.DiemTinHoc</td>
+				<td>@item.DiemTongKet</td>				 
 			</tr>
 			stt++;
 		}
@@ -79,5 +84,23 @@
 		padding: 4px 10px;
 		font-size: 13px;
 	}
+
+	.baocao {
+		display: inline-block;
+		margin-bottom: 15px;
+		padding: 8px 16px;
+		background-color: #0d6efd; /* màu xanh bootstrap primary */
+		color: white;
+		text-decoration: none;
+		border-radius: 5px;
+		font-weight: 500;
+		transition: background-color 0.3s ease;
+	}
+
+		.baocao:hover {
+			background-color: #0b5ed7; /* màu xanh đậm khi hover */
+			color: white;
+			text-decoration: none;
+		}
 </style>
 

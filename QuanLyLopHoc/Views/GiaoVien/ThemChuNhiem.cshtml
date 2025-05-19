@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm rounded-3">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Thêm giáo viên chủ nhiệm</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ThemChuNhiem" method="post">
+                        <div class="form-group mb-3">
+                            <label for="id_nguoi_dung" class="form-label">Chọn giáo viên</label>
+                            <select class="form-control" name="id_nguoi_dung" required>
+                                @foreach (var gv in ViewBag.GiaoVienChuaChuNhiem)
+                                {
+                                    <option value="@gv.Id">@gv.TenNguoiDung</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="id_lop_hoc" class="form-label">Chọn lớp học</label>
+                            <select class="form-control" name="id_lop_hoc" required>
+                                @foreach (var lop in ViewBag.LopChuaChuNhiem)
+                                {
+                                    <option value="@lop.Id">@lop.TenLop</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-plus-circle"></i> Thêm giáo viên chủ nhiệm
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

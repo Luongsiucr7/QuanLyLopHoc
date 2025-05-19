@@ -13,7 +13,7 @@ namespace DLL.DTO
         public string TenNguoiDung { get; set; } = null!;
 
         [Required(ErrorMessage = "Email là bắt buộc.")]
-        [EmailAddress(ErrorMessage = "Email không hợp lệ.")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@gmail\.com$", ErrorMessage = "Email phải là địa chỉ Gmail hợp lệ.")]
         public string Email { get; set; } = null!;
 
         [Required(ErrorMessage = "Địa chỉ là bắt buộc.")]
@@ -21,11 +21,13 @@ namespace DLL.DTO
 
         [Required(ErrorMessage = "Số điện thoại là bắt buộc.")]
         [Phone(ErrorMessage = "Số điện thoại không hợp lệ.")]
+        [RegularExpression(@"^0[1-9]\d{8}$", ErrorMessage = "Số điện thoại phải bắt đầu bằng 0, số thứ hai từ 1-9 và gồm 10 chữ số.")]
         public string SoDienThoai { get; set; } = null!;
 
         public bool GioiTinh { get; set; }
 
         [Required(ErrorMessage = "Ngày sinh là bắt buộc.")]
+        [DoTuoiHopLe(23, 60)]
         public DateTime NgaySinh { get; set; }
 
         [Required(ErrorMessage = "Mật khẩu là bắt buộc.")]
@@ -37,7 +39,17 @@ namespace DLL.DTO
 
         public string? TenLinkAnh { get; set; }
 
+
+        [Required(ErrorMessage = "Chọn một trạng thái")]
         public int TrangThai { get; set; }
+
+
+
+        [Required(ErrorMessage = "Chọn ít nhất 1 lớp dạy")]
+        public List<int> DanhSachIdLop { get; set; } = new();
+
+        [Required(ErrorMessage = "Chọn ít nhất 1 môn dạy")]
+        public List<int> DanhSachIdMon { get; set; } = new();
 
 
 

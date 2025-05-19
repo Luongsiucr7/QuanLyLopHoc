@@ -1,5 +1,5 @@
 ﻿@model DLL.DTO.DiemDto
-@using DLL.Model
+@using DLL.DTO
 @{
 	ViewData["Title"] = "Điểm";
 	
@@ -12,7 +12,7 @@
     {
         Layout = "_AdminLayout";
     }
-	var danhSach = ViewBag.DanhSachDiem as List<Diem>;
+	var danhSach = ViewBag.DanhSachDiem as List<DiemDto>;
 }
 
 <h2 class="text-center">Quản Lý Điểm</h2>

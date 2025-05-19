@@ -16,11 +16,11 @@ namespace DLL.DataSeed
                 if (!context.NguoiDungs.Any(u => u.VaiTro == 2))
                 {
                     var admin = new NguoiDung
-                    {
+                    { 
+
                         TenNguoiDung = "Nguyễn Đình Đức Lương",
                         MatKhau = "123456",
                         VaiTro = 2,
-                        MaNguoiDung = "ADMIN001",
                         Email = "luongnddph50650@gmail.com",
                         DiaChi = "123 Đường Admin, Quận 1, TP.HCM",
                         SoDienThoai = "0345678912",

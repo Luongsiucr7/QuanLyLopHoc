@@ -18,5 +18,7 @@ namespace DLL.DTO
         public decimal? DiemTinHoc { get; set; }
         public string LopHoc { get; set; } = null!;
         public string? GiaoVienChuNhiem { get; set; }
+        public double? DiemTongKet { get; set; } 
+        public string? HocLuc { get; set; }
     }
 }

@@ -17,10 +17,20 @@ namespace QuanLyLopHoc.Controllers
         }
         public IActionResult Index()
         {
-            ViewBag.DanhSachDiem = context.Diems
-                 .Where(x => x.TrangThai == 1)
-                 .ToList();
-            return View(new DiemDto());
+            var danhSach = context.Diems
+                .Where(x => x.TrangThai == 1)
+                .GroupBy(x => x.TenDiem) 
+                .Select(g => g.First()) 
+                .Select(x => new DiemDto
+                {
+                    Id = x.Id,
+                    TenDiem = x.TenDiem,
+                    TrangThai = x.TrangThai
+                })
+                .ToList();
+
+            ViewBag.DanhSachDiem = danhSach;
+            return View();
         }
 
         [HttpPost]
