@@ -15,7 +15,10 @@
 }
 <h2>Bảng điểm lớp học</h2>
 <h2 class="text-center">Bảng Điểm @tenDiem</h2>
-<a class="baocao" asp-controller="BangDiemLop" asp-action="XuatBaoCao" asp-route-idLop="@idLop" onclick="return confirm('Bạn muốn xuất file báo cáo lớp?');">Báo cáo học lực</a>
+@if (tenDiem.Equals("Tổng Kết"))
+{
+	<a class="baocao" asp-controller="BangDiemLop" asp-action="XuatBaoCao" asp-route-idLop="@idLop" onclick="return confirm('Bạn muốn xuất file báo cáo lớp?');">Báo cáo học lực</a>
+}
 <table class="table table-bordered table-hover text-center">
 	<thead class="table-dark">
 		<tr>
@@ -29,8 +32,11 @@
 			<th>Ngoại ngữ</th>
 			<th>Khoa học</th>
 			<th>Thể dục</th>
-			<th>Tin học</th>          
-            <th>Điểm trung bình</th>
+			<th>Tin học</th>
+			@if (tenDiem.Equals("Tổng Kết"))
+			{
+				<th>Điểm trung bình</th>
+			}
 		</tr>
 	</thead>
 	<tbody>
@@ -51,7 +57,10 @@
 				<td>@item.DiemKhoaHoc</td>
 				<td>@item.DiemTheDuc</td>
 				<td>@item.DiemTinHoc</td>
-				<td>@item.DiemTongKet</td>				 
+				@if (tenDiem.Equals("Tổng Kết"))
+				{
+					<td>@item.DiemTongKet</td>
+				}
 			</tr>
 			stt++;
 		}

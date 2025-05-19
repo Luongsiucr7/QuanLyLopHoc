@@ -15,7 +15,7 @@ namespace QuanLyLopHoc.Controllers
     public class BangDiemLopController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly string _connectionString = @"Data Source=LUONGNDDPH50650\SQLEXPRESS;Initial Catalog=QuanLyLopHoc3;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;MultipleActiveResultSets=True";
+        private readonly string _connectionString = @"Data Source=LUONGNDDPH50650\SQLEXPRESS;Initial Catalog=QuanLyLopHoc4;Integrated Security=True;Encrypt=True;Trust Server Certificate=True;MultipleActiveResultSets=True";
         private readonly IWebHostEnvironment _env;
 
         public BangDiemLopController(AppDbContext context, IWebHostEnvironment env)

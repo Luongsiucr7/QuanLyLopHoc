@@ -330,7 +330,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>Giỏi</Value>
+                              <Value>Yếu</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -429,16 +429,16 @@
               <Width>0.49444in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>1.38333in</Width>
-            </TablixColumn>
-            <TablixColumn>
-              <Width>1.06389in</Width>
+              <Width>1.43889in</Width>
             </TablixColumn>
             <TablixColumn>
               <Width>1in</Width>
             </TablixColumn>
             <TablixColumn>
-              <Width>2.13611in</Width>
+              <Width>0.975in</Width>
+            </TablixColumn>
+            <TablixColumn>
+              <Width>3.09167in</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -477,7 +477,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox41">
+                    <Textbox Name="Textbox1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -493,7 +493,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox41</rd:DefaultName>
+                      <rd:DefaultName>Textbox1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
@@ -510,7 +510,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox43">
+                    <Textbox Name="Textbox5">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -528,7 +528,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox43</rd:DefaultName>
+                      <rd:DefaultName>Textbox5</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
@@ -545,7 +545,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox45">
+                    <Textbox Name="Textbox9">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -553,7 +553,9 @@
                           <TextRuns>
                             <TextRun>
                               <Value>Học lực</Value>
-                              <Style />
+                              <Style>
+                                <FontFamily>Times New Roman</FontFamily>
+                              </Style>
                             </TextRun>
                           </TextRuns>
                           <Style>
@@ -561,7 +563,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox45</rd:DefaultName>
+                      <rd:DefaultName>Textbox9</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
@@ -578,7 +580,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="Textbox39">
+                    <Textbox Name="Textbox13">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -594,7 +596,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>Textbox39</rd:DefaultName>
+                      <rd:DefaultName>Textbox13</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
@@ -649,7 +651,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TenHocSinh">
+                    <Textbox Name="TenHocSinh1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -660,10 +662,12 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Left</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TenHocSinh</rd:DefaultName>
+                      <rd:DefaultName>TenHocSinh1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
@@ -679,7 +683,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="DiemTongKet">
+                    <Textbox Name="DiemTongKet1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -695,7 +699,7 @@
                           </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>DiemTongKet</rd:DefaultName>
+                      <rd:DefaultName>DiemTongKet1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
@@ -712,7 +716,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="TenHocLuc">
+                    <Textbox Name="TenHocLuc1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -723,15 +727,18 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>TenHocLuc</rd:DefaultName>
+                      <rd:DefaultName>TenHocLuc1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
                           <Width>1.25pt</Width>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -742,7 +749,7 @@
                 </TablixCell>
                 <TablixCell>
                   <CellContents>
-                    <Textbox Name="DiaChi">
+                    <Textbox Name="DiaChi1">
                       <CanGrow>true</CanGrow>
                       <KeepTogether>true</KeepTogether>
                       <Paragraphs>
@@ -753,15 +760,18 @@
                               <Style />
                             </TextRun>
                           </TextRuns>
-                          <Style />
+                          <Style>
+                            <TextAlign>Center</TextAlign>
+                          </Style>
                         </Paragraph>
                       </Paragraphs>
-                      <rd:DefaultName>DiaChi</rd:DefaultName>
+                      <rd:DefaultName>DiaChi1</rd:DefaultName>
                       <Style>
                         <Border>
                           <Style>Double</Style>
                           <Width>1.25pt</Width>
                         </Border>
+                        <VerticalAlign>Middle</VerticalAlign>
                         <PaddingLeft>2pt</PaddingLeft>
                         <PaddingRight>2pt</PaddingRight>
                         <PaddingTop>2pt</PaddingTop>
@@ -797,7 +807,7 @@
         <Top>3.97167in</Top>
         <Left>0.68833in</Left>
         <Height>0.5in</Height>
-        <Width>6.07778in</Width>
+        <Width>7in</Width>
         <ZIndex>2</ZIndex>
         <Style>
           <Border>
@@ -1210,7 +1220,7 @@
         <Top>0.82167in</Top>
         <Left>0.68833in</Left>
         <Height>0.75in</Height>
-        <Width>6.86667in</Width>
+        <Width>6.86666in</Width>
         <ZIndex>3</ZIndex>
         <Style>
           <Border>
@@ -1287,24 +1297,24 @@
     <Height>6.655in</Height>
     <Style />
   </Body>
-  <Width>10.09667in</Width>
+  <Width>10.7661in</Width>
   <Page>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="QuanLyLopHoc3DataSet">
+    <DataSource Name="QuanLyLopHoc4DataSet">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>570c0983-a1ec-4af8-98f7-c0e4eab9fc14</rd:DataSourceID>
+      <rd:DataSourceID>87ab5134-298f-4556-b3f2-9cf65810d890</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
     <DataSet Name="DataSet1">
       <Query>
-        <DataSourceName>QuanLyLopHoc3DataSet</DataSourceName>
+        <DataSourceName>QuanLyLopHoc4DataSet</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -1338,8 +1348,8 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>QuanLyLopHoc3DataSet</rd:DataSetName>
-        <rd:SchemaPath>H:\QuanLyLopHoc\QuanLyLopHoc\QuanLyLopHoc3DataSet.xsd</rd:SchemaPath>
+        <rd:DataSetName>QuanLyLopHoc4DataSet</rd:DataSetName>
+        <rd:SchemaPath>H:\QuanLyLopHoc\QuanLyLopHoc\QuanLyLopHoc4DataSet.xsd</rd:SchemaPath>
         <rd:TableName>BaoCaoTongKetLopTheoId</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
@@ -1348,7 +1358,7 @@
     </DataSet>
     <DataSet Name="DataSet2">
       <Query>
-        <DataSourceName>QuanLyLopHoc3DataSet</DataSourceName>
+        <DataSourceName>QuanLyLopHoc4DataSet</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
@@ -1370,8 +1380,8 @@
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>QuanLyLopHoc3DataSet</rd:DataSetName>
-        <rd:SchemaPath>H:\QuanLyLopHoc\QuanLyLopHoc\QuanLyLopHoc3DataSet.xsd</rd:SchemaPath>
+        <rd:DataSetName>QuanLyLopHoc4DataSet</rd:DataSetName>
+        <rd:SchemaPath>H:\QuanLyLopHoc\QuanLyLopHoc\QuanLyLopHoc4DataSet.xsd</rd:SchemaPath>
         <rd:TableName>BaoCaoChiTietHocSinhTheoLop1</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
